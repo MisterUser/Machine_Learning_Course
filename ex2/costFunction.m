@@ -22,7 +22,8 @@ grad = zeros(size(theta));
 
     %h_theta(x) = g(theta'*x) = 1/(1+exp(-theta'*X)
     h_theta = sigmoid(X*theta);
-    J = inv_m * sum(-1 * y' * log(h_theta) - (ones(m,1)-y)' * log(ones(m,1)-h_theta));
+    %J = inv_m * sum(-1 * y' * log(h_theta) - (ones(m,1)-y)' * log(ones(m,1)-h_theta));
+    J = inv_m * sum(-1 * y .* log(h_theta) - (1 - y) .* log(1 - h_theta));
     %h_theta is an mx1 vector of constants which resulted from g()
     %  subtracting y gives an mx1 vector with elements h(xi) - y(i)
     %  invert this vector to get 1xm

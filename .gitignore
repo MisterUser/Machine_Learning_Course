@@ -1,2 +1,6 @@
 ex1/.directory
 ex1/token.mat
+*token.mat
+*.zip
+*/lib
+octave-workspace

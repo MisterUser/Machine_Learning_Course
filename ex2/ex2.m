@@ -88,8 +88,8 @@ options = optimset('GradObj', 'on', 'MaxIter', 400);
 
 % Print theta to screen
 fprintf('Cost at theta found by fminunc: %f\n', cost);
-fprintf('theta: %f \n',theta);
-%fprintf(' %f \n', theta);
+fprintf('theta: \n');
+fprintf(' %f \n', theta);
 
 % Plot Boundary
 plotDecisionBoundary(theta, X, y);

@@ -53,6 +53,8 @@ fprintf('\nLoading Saved Neural Network Parameters ...\n')
 
 % Load the weights into variables Theta1 and Theta2
 load('ex3weights.mat');
+%Theta1 has size 25 x 401
+%Theta2 has size 10 x 26
 
 %% ================= Part 3: Implement Predict =================
 %  After training the neural network, we would like to use it to predict

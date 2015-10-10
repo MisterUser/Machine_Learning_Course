@@ -21,12 +21,18 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+%add a0(1) column to X
+inX = [ones(m,1) X];
 
+%a2 will be a 100 x 25 matrix 
+%  with each column corresponding to a node of level 2
+a2 = sigmoid(inX * Theta1'); 
 
+%need to add a0(2) column to a2
+a2 = [ones(m,1) a2;];
 
-
-
-
+%a2 * Theta2' is a 100 x 10 matrix: each row has predictions for a value in X 
+[maxVal, p] = max(sigmoid(a2 * Theta2'), [], 2);
 
 
 % =========================================================================
