@@ -24,7 +24,7 @@ Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):en
 
 % Setup some useful variables
 m = size(X, 1);
-         
+inv_m = 1/m;         
 % You need to return the following variables correctly 
 J = 0;
 Theta1_grad = zeros(size(Theta1));
@@ -62,23 +62,60 @@ Theta2_grad = zeros(size(Theta2));
 %               and Theta2_grad from Part 2.
 %
 
+%Part 1:
+%get cost and gradient without reg
+z2 = [ones(m, 1) X] * Theta1';
+a2 = sigmoid(z2);
+z3 = [ones(m, 1) a2] * Theta2';
+h3 = sigmoid(z3);
+
+%create binary array matrix from y
+%  for each y (row) -> creates row in matrix 
+%  with 1 at elem. corresponding to y value and 0 at others 
+yMatrix = (y == 1:num_labels);                                  
+
+%compute cost function by comparing yMatrix and h3 (output layer)
+J = inv_m * sum(sum(-1 * yMatrix .* log(h3) - (1 - yMatrix) .* log(1 - h3)));
+
+%add regularization to cost 
+%  sum squares of all elements of the thetas
+%  (don't regularize bias term -> first column)
+sumSquaresT1 = sum(sum(Theta1(:,2:end) .^ 2));
+sumSquaresT2 = sum(sum(Theta2(:,2:end) .^ 2));
+J = J + (lambda/(2 * m)) * (sumSquaresT1 + sumSquaresT2); 
 
 
+%Part 2:
 
+for t = 1:m
 
+    %load next example set into a1
+    a1row = [1 X(t,:)]; %1x26 
+    z2row = [1 z2(t,:)]; %1x26
 
+    %feed forward 
+    a2row = [1 a2(t,:)]; %1x26
+    z3row = a2row * Theta2'; %1x10
+    h3row = h3(t,:); %1x10
+   
+    %compute errors
+    delta_3 = h3row - yMatrix(t,:); %1x10
+    delta_2 = Theta2' * delta_3' .* sigmoidGradient(z2row'); %26x1 
+    
+    %add the erros to the accumulated sum of errors for each connection
+    Theta1_grad = Theta1_grad + delta_2(2:end)*a1row; %25x401
+    Theta2_grad = Theta2_grad + delta_3'*a2row; %10x26
 
+end
 
+%normalize the gradients with the number of examples
+Theta1_grad = inv_m * Theta1_grad;
+Theta2_grad = inv_m * Theta2_grad;
 
-
-
-
-
-
-
-
-
-
+%add regularization
+%(except bias column!)
+Theta1_grad(:,2:end) = Theta1_grad(:,2:end) + (lambda/m)*Theta1(:,2:end);
+Theta2_grad(:,2:end) = Theta2_grad(:,2:end) + (lambda/m)*Theta2(:,2:end);
 
 % -------------------------------------------------------------
 
@@ -86,6 +123,5 @@ Theta2_grad = zeros(size(Theta2));
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
 
 end
