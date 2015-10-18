@@ -51,15 +51,14 @@ error_val   = zeros(m, 1);
 %       end
 %
 
-% ---------------------- Sample Solution ----------------------
-
-
-
-
-
-
-
-% -------------------------------------------------------------
+  for i = 1:m
+    %first get optimized theta values
+    [theta] = trainLinearReg(X(1:i,:), y(1:i), lambda);
+    %train on only first i examples
+    [error_train(i),  grad] = linearRegCostFunction(X(1:i,:), y(1:i), theta, 0);
+    %check on ALL cross validation examples
+    [error_val(i),grad_val] = linearRegCostFunction(Xval , yval, theta, 0); 
+  end
 
 % =========================================================================
 

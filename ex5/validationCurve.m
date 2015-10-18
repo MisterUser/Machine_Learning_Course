@@ -39,14 +39,17 @@ error_val = zeros(length(lambda_vec), 1);
 %
 %
 
+  for i = 1:length(lambda_vec)
+    lambda = lambda_vec(i);
+    
+    %first get optimized theta values
+    [theta] = trainLinearReg(X, y, lambda);
+    %train on only first i examples
+    error_train(i) = linearRegCostFunction(X, y, theta, 0);
+    %check on ALL cross validation examples
+    error_val(i) = linearRegCostFunction(Xval, yval, theta, 0);
 
-
-
-
-
-
-
-
+  end
 
 % =========================================================================
 

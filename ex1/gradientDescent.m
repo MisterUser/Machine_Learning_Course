@@ -25,7 +25,7 @@ for iter = 1:num_iters
     end
 
     %theta1_temp = theta(1) - K*sum(X*theta - y)
-    %theta2_temp = theta(2) - K*sum((X*theta - y)'*X(:,2))
+    %theta2_temp = theta(2) - K*sum((X*theta - y)'*X(:,2:end))
 
     theta = theta_temp;
 

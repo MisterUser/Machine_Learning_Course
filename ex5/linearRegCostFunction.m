@@ -19,19 +19,19 @@ grad = zeros(size(theta));
 %               You should set J to the cost and grad to the gradient.
 %
 
+%X, y, and theta are column vectors
+%X = mxn, theta = nx1, y = mx1
+J = 1/(2*m)*sum((X*theta - y).^2) + (lambda/(2*m))*sum(theta(2:end).^2);
 
-
-
-
-
-
-
-
-
-
+%X*theta-y = mx1 , transverse is 1xm. Multiply by X (mxn) = 1xn. (one for each theta)
+%  no need for the sum term, because the matrix mult does it automatically
+%  Then take transverse so that can add to column vector of l/m *theta
+grad = ((1/m) .* ((X*theta - y)'*X))';
+%add regularization to all grad terms except theta0
+grad(2:end) = grad(2:end) + (lambda/m).*theta(2:end);
 
 % =========================================================================
 
-grad = grad(:);
+%grad = grad(:);
 
 end
