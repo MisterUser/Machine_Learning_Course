@@ -39,21 +39,17 @@ Theta_grad = zeros(size(Theta));
 %        Theta_grad - num_users x num_features matrix, containing the 
 %                     partial derivatives w.r.t. to each element of Theta
 %
+lam2 = lambda/2;
 
+single_MovieCost = (X*Theta' - Y) .* R;
 
+J = (1/2) * sum(sum( single_MovieCost .^2 ));
 
+J = J + lam2 * ( sum(sum(Theta.^2)) + sum(sum(X.^2)) );
 
+X_grad = single_MovieCost * Theta + (lambda .* X); 
 
-
-
-
-
-
-
-
-
-
-
+Theta_grad = single_MovieCost' * X + (lambda .* Theta);
 
 % =============================================================
 

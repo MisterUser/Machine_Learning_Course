@@ -21,13 +21,28 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
+for i = 1:size(X,1)
+    xi = X(i,:); %should be a row vector
+   
+    %subtract all the elements at once using vector subtr
+    tempVec = centroids(1,:) - xi;
+    tempVec = tempVec .^2;
+    minDist = sqrt(sum(tempVec,2));
+    idx(i) = 1;
 
-
-
-
-
+    %go to first row in centroid matrix -> contains one centroid
+    for cent_iter = 2:K
+        %subtract all the elements at once using vector subtr
+        tempVec = centroids(cent_iter,:) - xi;
+        tempVec = tempVec .^2;
+        newDist = sqrt(sum(tempVec,2));
+        if newDist < minDist
+            minDist = newDist;
+            idx(i) = cent_iter;
+        end
+    end
+end
 
 % =============================================================
 
 end
-
